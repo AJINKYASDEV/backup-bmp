@@ -49,9 +49,6 @@ export default defineConfig({
           // Charts — only loaded on analytics/dashboard pages
           "vendor-charts": ["chart.js", "react-chartjs-2", "recharts"],
 
-          // Firebase — large SDK, isolate for independent caching
-          "vendor-firebase": ["firebase"],
-
           // PDF generation — only loaded when generating reports
           "vendor-pdf": ["jspdf"],
 
