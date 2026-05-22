@@ -8,11 +8,7 @@ export const up = async (queryInterface, Sequelize) => {
     parcel_id: {
       type: Sequelize.UUID,
       allowNull: false,
-      references: {
-        model: "parcel",
-        key: "id",
-      },
-      onDelete: "CASCADE",
+      // FK to parcel table — enforced at app level; parcel table created by model sync
     },
     traveller_id: {
       type: Sequelize.UUID,
@@ -21,11 +17,7 @@ export const up = async (queryInterface, Sequelize) => {
     route_id: {
       type: Sequelize.UUID,
       allowNull: false,
-      references: {
-        model: "traveller_routes",
-        key: "id",
-      },
-      onDelete: "CASCADE",
+      // FK to traveller_routes — enforced at app level; table created by model sync
     },
     match_score: {
       type: Sequelize.DECIMAL(5, 2),

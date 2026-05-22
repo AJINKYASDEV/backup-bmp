@@ -9,20 +9,12 @@ export const up = async (queryInterface, Sequelize) => {
       type: Sequelize.UUID,
       allowNull: false,
       unique: true,
-      references: {
-        model: "parcel_requests",
-        key: "id",
-      },
-      onDelete: "CASCADE",
+      // FK to parcel_requests — enforced at app level
     },
     parcel_id: {
       type: Sequelize.UUID,
       allowNull: false,
-      references: {
-        model: "parcel",
-        key: "id",
-      },
-      onDelete: "CASCADE",
+      // FK to parcel table — enforced at app level; parcel table created by model sync
     },
     traveller_id: {
       type: Sequelize.UUID,
