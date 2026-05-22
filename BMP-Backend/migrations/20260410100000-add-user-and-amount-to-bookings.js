@@ -1,32 +1,13 @@
 export const up = async (queryInterface, Sequelize) => {
-  await queryInterface.addColumn("booking", "user_id", {
-    type: Sequelize.UUID,
-    allowNull: true,
-    comment: "Parcel owner (from parcel.user_id)",
-  });
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('booking')) return;
+  const tableDesc = await queryInterface.describeTable('booking');
 
-  await queryInterface.addColumn("booking", "amount", {
-    type: Sequelize.DECIMAL(10, 2),
-    allowNull: true,
-    comment: "Booking amount",
-  });
-
-  // Add foreign key constraint for user_id if not already present
-  try {
-    await queryInterface.addConstraint("booking", {
-      fields: ["user_id"],
-      type: "foreign key",
-      name: "booking_user_id_fk",
-      references: {
-        table: "user",
-        field: "id",
-      },
-      onDelete: "SET NULL",
-      onUpdate: "CASCADE",
-    });
-  } catch (err) {
-    // Foreign key might already exist
-    console.log("Foreign key constraint might already exist:", err.message);
+  if (!tableDesc.user_id) {
+    await queryInterface.addColumn("booking", "user_id", { type: Sequelize.UUID, allowNull: true });
+  }
+  if (!tableDesc.amount) {
+    await queryInterface.addColumn("booking", "amount", { type: Sequelize.DECIMAL(10, 2), allowNull: true });
   }
 };
 

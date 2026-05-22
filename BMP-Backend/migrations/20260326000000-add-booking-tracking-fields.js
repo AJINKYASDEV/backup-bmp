@@ -1,58 +1,29 @@
 export const up = async (queryInterface, Sequelize) => {
-  await queryInterface.addColumn('booking', 'pickup_otp_generated_at', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('booking')) return;
+  const tableDesc = await queryInterface.describeTable('booking');
 
-  await queryInterface.addColumn('booking', 'pickup_otp_attempts', {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
-    allowNull: false,
-  });
+  const cols = {
+    pickup_otp_generated_at:   { type: Sequelize.DATE, allowNull: true },
+    pickup_otp_attempts:       { type: Sequelize.INTEGER, defaultValue: 0, allowNull: false },
+    pickup_verified_at:        { type: Sequelize.DATE, allowNull: true },
+    delivery_otp_generated_at: { type: Sequelize.DATE, allowNull: true },
+    delivery_otp_attempts:     { type: Sequelize.INTEGER, defaultValue: 0, allowNull: false },
+    delivered_at:              { type: Sequelize.DATE, allowNull: true },
+    pickup_otp_locked_until:   { type: Sequelize.DATE, allowNull: true },
+    delivery_otp_locked_until: { type: Sequelize.DATE, allowNull: true },
+  };
 
-  await queryInterface.addColumn('booking', 'pickup_verified_at', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
-
-  await queryInterface.addColumn('booking', 'delivery_otp_generated_at', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
-
-  await queryInterface.addColumn('booking', 'delivery_otp_attempts', {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
-    allowNull: false,
-  });
-
-  await queryInterface.addColumn('booking', 'delivered_at', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
-
-  await queryInterface.addColumn('booking', 'pickup_otp_locked_until', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
-
-  await queryInterface.addColumn('booking', 'delivery_otp_locked_until', {
-    type: Sequelize.DATE,
-    allowNull: true,
-  });
-
-  console.log('✅ Added OTP tracking fields to booking table');
+  for (const [col, def] of Object.entries(cols)) {
+    if (!tableDesc[col]) {
+      await queryInterface.addColumn('booking', col, def);
+    }
+  }
 };
 
 export const down = async (queryInterface) => {
-  await queryInterface.removeColumn('booking', 'pickup_otp_generated_at');
-  await queryInterface.removeColumn('booking', 'pickup_otp_attempts');
-  await queryInterface.removeColumn('booking', 'pickup_verified_at');
-  await queryInterface.removeColumn('booking', 'delivery_otp_generated_at');
-  await queryInterface.removeColumn('booking', 'delivery_otp_attempts');
-  await queryInterface.removeColumn('booking', 'delivered_at');
-  await queryInterface.removeColumn('booking', 'pickup_otp_locked_until');
-  await queryInterface.removeColumn('booking', 'delivery_otp_locked_until');
-
-  console.log('✅ Removed OTP tracking fields from booking table');
+  const cols = ['pickup_otp_generated_at','pickup_otp_attempts','pickup_verified_at',
+    'delivery_otp_generated_at','delivery_otp_attempts','delivered_at',
+    'pickup_otp_locked_until','delivery_otp_locked_until'];
+  for (const col of cols) await queryInterface.removeColumn('booking', col);
 };

@@ -29,13 +29,6 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log("✅ Connected to database");
 
-    // Sync models first to create base tables (users, parcel, traveller_routes, etc.)
-    // This is safe with force:false — it only creates tables that don't exist yet,
-    // never drops or alters existing ones. Required because ALTER TABLE migrations
-    // depend on these base tables existing before they run.
-    await sequelize.sync({ force: false, alter: false });
-    console.log("✅ Base tables synced");
-
     // Run all pending database migrations
     await runMigrations();
 

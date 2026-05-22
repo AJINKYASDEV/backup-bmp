@@ -1,32 +1,28 @@
 export const up = async (queryInterface, Sequelize) => {
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('traveller_routes')) return;
+  const tableDesc = await queryInterface.describeTable('traveller_routes');
+
   try {
-    // Create enum type for transport_mode if it doesn't exist
     await queryInterface.sequelize.query(`
       CREATE TYPE "enum_traveller_routes_transport_mode" AS ENUM ('private', 'bus', 'train');
     `).catch((err) => {
-      // Ignore if type already exists
-      if (err.message.includes('already exists')) {
-        console.log('[Migration] transport_mode enum already exists');
-      } else {
-        throw err;
-      }
+      if (!err.message.includes('already exists')) throw err;
     });
 
-    // Add transport_mode column
-    await queryInterface.addColumn('traveller_routes', 'transport_mode', {
-      type: Sequelize.ENUM('private', 'bus', 'train'),
-      allowNull: false,
-      defaultValue: 'private',
-    });
-    console.log('✅ Added transport_mode column to traveller_routes');
-
-    // Add stops_passed column
-    await queryInterface.addColumn('traveller_routes', 'stops_passed', {
-      type: Sequelize.JSONB,
-      allowNull: true,
-    });
-    console.log('✅ Added stops_passed column to traveller_routes');
-
+    if (!tableDesc.transport_mode) {
+      await queryInterface.addColumn('traveller_routes', 'transport_mode', {
+        type: Sequelize.ENUM('private', 'bus', 'train'),
+        allowNull: false,
+        defaultValue: 'private',
+      });
+    }
+    if (!tableDesc.stops_passed) {
+      await queryInterface.addColumn('traveller_routes', 'stops_passed', {
+        type: Sequelize.JSONB,
+        allowNull: true,
+      });
+    }
   } catch (error) {
     console.error('[Migration] Error during up:', error.message);
     throw error;
