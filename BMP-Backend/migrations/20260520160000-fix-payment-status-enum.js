@@ -15,7 +15,12 @@
  */
 
 export async function up(queryInterface) {
-  // 1. Add CREATED if missing
+  // Skip if enum doesn't exist yet
+  const [results] = await queryInterface.sequelize.query(
+    `SELECT 1 FROM pg_type WHERE typname = 'enum_payments_status'`
+  );
+  if (results.length === 0) return;
+
   await queryInterface.sequelize.query(`
     DO $$
     BEGIN
@@ -30,7 +35,6 @@ export async function up(queryInterface) {
     $$;
   `);
 
-  // 2. Add SUCCESS if missing
   await queryInterface.sequelize.query(`
     DO $$
     BEGIN
@@ -45,7 +49,6 @@ export async function up(queryInterface) {
     $$;
   `);
 
-  // 3. Migrate any existing COMPLETED rows to SUCCESS
   await queryInterface.sequelize.query(`
     UPDATE payments SET status = 'SUCCESS' WHERE status = 'COMPLETED';
   `);
