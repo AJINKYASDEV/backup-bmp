@@ -7,12 +7,14 @@ import TravellerCard from "../../../components/user/TravellerCard";
 import { useStepPartner } from "../../../core/hooks/useStepPartner";
 
 const VEHICLE_OPTIONS = [
-  { type: "Bike",       icon: <Bike size={16} /> },
-  { type: "Car",        icon: <Car size={16} /> },
-  { type: "Mini Truck", icon: <Truck size={16} /> },
-  { type: "Truck",      icon: <Truck size={16} /> },
-  { type: "Bus",        icon: <Bus size={16} /> },
-  { type: "Train",      icon: <Train size={16} /> },
+  { type: "bike",  label: "Bike",       icon: <Bike size={16} /> },
+  { type: "car",   label: "Car",        icon: <Car size={16} /> },
+  { type: "suv",   label: "SUV",        icon: <Truck size={16} /> },
+  { type: "van",   label: "Van",        icon: <Truck size={16} /> },
+  { type: "truck", label: "Truck",      icon: <Truck size={16} /> },
+  { type: "tempo", label: "Tempo",      icon: <Truck size={16} /> },
+  { type: "bus",   label: "Bus",        icon: <Bus size={16} /> },
+  { type: "train", label: "Train",      icon: <Train size={16} /> },
 ];
 
 const StepPartner = ({ data, updateFields, onNext, onBack, parcelId }) => {
@@ -121,7 +123,7 @@ const StepPartner = ({ data, updateFields, onNext, onBack, parcelId }) => {
                 className="!rounded-full !px-4 flex items-center gap-2"
                 onClick={() => setShowVehicleMenu((p) => !p)}
               >
-                {selectedVehicle || "Vehicle"} <ChevronDown size={14} />
+                {selectedVehicle ? VEHICLE_OPTIONS.find(v => v.type === selectedVehicle)?.label || selectedVehicle : "Vehicle"} <ChevronDown size={14} />
               </Button>
               {showVehicleMenu && (
                 <div className="absolute right-0 z-30 mt-2 bg-white border shadow-lg w-44 rounded-xl">
@@ -131,7 +133,7 @@ const StepPartner = ({ data, updateFields, onNext, onBack, parcelId }) => {
                       className="flex items-center w-full gap-3 px-4 py-2 text-sm hover:bg-gray-100"
                     >
                       <span className="text-primary">{v.icon}</span>
-                      <span>{v.type}</span>
+                      <span>{v.label}</span>
                     </button>
                   ))}
                   <button onClick={() => { setSelectedVehicle(null); setShowVehicleMenu(false); }}

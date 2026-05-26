@@ -2,12 +2,15 @@ import { Star, Send, ArrowRight, Bike, Car, Truck, Bus, Train } from "lucide-rea
 
 const vehicleIcon = (type) => {
   const cls = "text-primary";
-  switch (type) {
-    case "Bike":       return <Bike size={16} className={cls} />;
-    case "Truck":
-    case "Mini Truck": return <Truck size={16} className={cls} />;
-    case "Bus":        return <Bus size={16} className={cls} />;
-    case "Train":      return <Train size={16} className={cls} />;
+  const normalizedType = type?.toLowerCase();
+  switch (normalizedType) {
+    case "bike":       return <Bike size={16} className={cls} />;
+    case "truck":
+    case "tempo":      return <Truck size={16} className={cls} />;
+    case "bus":        return <Bus size={16} className={cls} />;
+    case "train":      return <Train size={16} className={cls} />;
+    case "suv":
+    case "van":        return <Truck size={16} className={cls} />;
     default:           return <Car size={16} className={cls} />;
   }
 };

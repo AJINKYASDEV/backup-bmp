@@ -3,7 +3,7 @@ import { IoClose, IoLocationOutline } from 'react-icons/io5';
 import { IoIosSend } from 'react-icons/io';
 import { FaStar, FaArrowRightLong } from 'react-icons/fa6';
 import { PiMotorcycleBold, PiTruck, PiVan, PiCar } from 'react-icons/pi';
-import { FaBus } from 'react-icons/fa';
+import { FaBus, FaTrain } from 'react-icons/fa';
 import ApiService from '../../core/services/api.service';
 import ServerUrl from '../../core/constants/serverUrl.constant';
 import { showToast } from '../../core/utils/toast.util';
@@ -105,15 +105,20 @@ const TravellerSelectionModal = ({
   };
 
   const renderVehicleIcon = (type) => {
-    switch (type) {
-      case "Bike":
+    const normalizedType = type?.toLowerCase();
+    switch (normalizedType) {
+      case "bike":
         return <PiMotorcycleBold className="text-xl text-blue-600" />;
-      case "Truck":
+      case "truck":
+      case "tempo":
         return <PiTruck className="text-xl text-blue-600" />;
-      case "Mini Truck":
+      case "suv":
+      case "van":
         return <PiVan className="text-xl text-blue-600" />;
-      case "Bus":
+      case "bus":
         return <FaBus className="text-xl text-blue-600" />;
+      case "train":
+        return <FaTrain className="text-xl text-blue-600" />;
       default:
         return <PiCar className="text-xl text-blue-600" />;
     }
