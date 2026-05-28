@@ -15,17 +15,22 @@
  */
 
 export async function up(queryInterface, Sequelize) {
-  // 1. Make booking_id nullable
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('payments')) return;
+
   await queryInterface.changeColumn("payments", "booking_id", {
     type: Sequelize.UUID,
     allowNull: true,
   });
 
-  // 2. Make user_id nullable (column exists in DB but not in model)
-  await queryInterface.changeColumn("payments", "user_id", {
-    type: Sequelize.UUID,
-    allowNull: true,
-  });
+  // user_id may not exist — check first
+  const tableDesc = await queryInterface.describeTable("payments");
+  if (tableDesc.user_id) {
+    await queryInterface.changeColumn("payments", "user_id", {
+      type: Sequelize.UUID,
+      allowNull: true,
+    });
+  }
 }
 
 export async function down(queryInterface, Sequelize) {

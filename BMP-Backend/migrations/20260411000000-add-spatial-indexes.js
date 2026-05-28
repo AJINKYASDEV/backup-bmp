@@ -19,10 +19,20 @@
 export const up = async (queryInterface, Sequelize) => {
   const sequelize = queryInterface.sequelize;
 
-  // ── GIST index on route_geom ───────────────────────────────────────────────
-  // Used by: ST_DWithin, ST_Distance in spatialMatching.service.js
-  // Covers:  findRoutesWithinBuffer, findRoutesBetweenPoints, isPointNearRoute,
-  //          estimateDetour, findRoutesByPlaceAndBuffer
+  // Skip if traveller_routes table doesn't exist yet
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('traveller_routes')) {
+    console.log('ℹ️  traveller_routes not found — skipping spatial indexes');
+    return;
+  }
+
+  // Skip if route_geom column doesn't exist yet
+  const tableDesc = await queryInterface.describeTable('traveller_routes');
+  if (!tableDesc.route_geom) {
+    console.log('ℹ️  route_geom column not found — skipping spatial indexes');
+    return;
+  }
+
   await sequelize.query(`
     DO $$
     BEGIN
@@ -39,13 +49,6 @@ export const up = async (queryInterface, Sequelize) => {
     $$;
   `);
 
-  console.log("✅ GIST spatial index created: idx_traveller_routes_geom on traveller_routes(route_geom)");
-
-  // ── Supporting B-tree indexes on traveller_routes ──────────────────────────
-  // These cover the WHERE clauses that run BEFORE the spatial filter,
-  // further reducing the rows PostGIS needs to evaluate.
-
-  // WHERE status = 'ACTIVE'  (all spatial queries filter by this first)
   await sequelize.query(`
     DO $$
     BEGIN
@@ -61,9 +64,6 @@ export const up = async (queryInterface, Sequelize) => {
     $$;
   `);
 
-  console.log("✅ B-tree index created: idx_traveller_routes_status on traveller_routes(status)");
-
-  // WHERE traveller_profile_id = ?  (used in profile-based lookups)
   await sequelize.query(`
     DO $$
     BEGIN
@@ -79,9 +79,7 @@ export const up = async (queryInterface, Sequelize) => {
     $$;
   `);
 
-  console.log("✅ B-tree index created: idx_traveller_routes_profile_id on traveller_routes(traveller_profile_id)");
-
-  console.log("\n✅ All spatial indexes created successfully");
+  console.log("✅ All spatial indexes created successfully");
 };
 
 export const down = async (queryInterface) => {

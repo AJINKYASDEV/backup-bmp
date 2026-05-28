@@ -1,10 +1,13 @@
 export const up = async (queryInterface, Sequelize) => {
-  // Add transport_mode column to traveller_routes table
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('traveller_routes')) return;
+  const tableDesc = await queryInterface.describeTable('traveller_routes');
+  if (tableDesc.transport_mode) return;
+
   await queryInterface.addColumn('traveller_routes', 'transport_mode', {
     type: Sequelize.ENUM('private', 'bus', 'train'),
     defaultValue: 'private',
     allowNull: true,
-    comment: 'Transportation mode: private vehicle, bus, or train'
   });
 };
 

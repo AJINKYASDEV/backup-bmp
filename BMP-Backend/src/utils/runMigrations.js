@@ -21,6 +21,14 @@ const migrationsDir = path.join(__dirname, "../../migrations");
  */
 
 const runMigrations = async () => {
+  // Only run migrations on PM2 instance 0 (or when not in cluster mode)
+  // This prevents race conditions when multiple workers start simultaneously
+  const instanceId = process.env.NODE_APP_INSTANCE;
+  if (instanceId !== undefined && instanceId !== "0") {
+    console.log(`ℹ️  [Migrations] Skipping on PM2 instance ${instanceId} — only instance 0 runs migrations`);
+    return;
+  }
+
   try {
     console.log("\n" + "=".repeat(70));
     console.log("🔧 DATABASE MIGRATION RUNNER - INITIALIZING");

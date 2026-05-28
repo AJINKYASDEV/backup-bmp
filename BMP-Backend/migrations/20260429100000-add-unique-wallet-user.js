@@ -1,4 +1,7 @@
 export const up = async (queryInterface) => {
+  const tables = await queryInterface.showAllTables();
+  if (!tables.includes('wallets')) return;
+
   await queryInterface.addIndex("wallets", ["user_id"], {
     name: "uniq_wallets_user_id",
     unique: true,
