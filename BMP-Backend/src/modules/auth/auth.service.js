@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import admin from "firebase-admin";
 import sequelize from "../../config/database.config.js";
 import User from "../user/user.model.js";
 import Role from "../user/role.model.js";
@@ -240,6 +242,135 @@ export async function login(email, password, loginRole) {
     activeRole: loginRole,
     roles:      dbRoles,
     kycStatus:  user.travellerKYC?.status || KYC_STATUS.NOT_STARTED,
+  };
+}
+
+export async function firebaseLogin(firebaseToken, provider) {
+  if (!firebaseToken) throw new Error("Firebase token is required");
+  if (!provider) throw new Error("Provider is required");
+
+  let decodedToken;
+  try {
+    decodedToken = await admin.auth().verifyIdToken(firebaseToken);
+  } catch (err) {
+    console.error("[FirebaseLogin] Invalid Firebase token:", err.message);
+    throw new Error("Invalid Firebase token");
+  }
+
+  const email = decodedToken.email;
+  if (!email) throw new Error("Firebase account email is required");
+  validateEmail(email);
+
+  const firebaseUid = decodedToken.uid;
+  const firebasePhone = decodedToken.phone_number || null;
+  const firebaseName = decodedToken.name || null;
+
+  let user = await User.findOne({
+    where: { email },
+    include: [
+      {
+        model: Role,
+        as: "roles",
+        through: { attributes: [] },
+      },
+      {
+        model: TravellerKYC,
+        as: "travellerKYC",
+        attributes: ["status"],
+      },
+    ],
+  });
+
+  if (!user) {
+    const passwordHash = await bcrypt.hash(crypto.randomBytes(16).toString("hex"), 10);
+    const phoneNumber = firebasePhone || `firebase:${firebaseUid}`;
+
+    await sequelize.transaction(async (t) => {
+      user = await User.create({
+        email,
+        password: passwordHash,
+        phone_number: phoneNumber,
+      }, { transaction: t });
+
+      await UserProfile.create({
+        user_id: user.id,
+        name: firebaseName,
+      }, { transaction: t });
+
+      await TravellerProfile.create({
+        user_id: user.id,
+        status: "INCOMPLETE",
+      }, { transaction: t });
+
+      await TravellerKYC.create({
+        user_id: user.id,
+        status: KYC_STATUS.NOT_STARTED,
+      }, { transaction: t });
+
+      const [individualRole, travellerRole] = await Promise.all([
+        Role.findOne({ where: { name: ROLES.INDIVIDUAL }, transaction: t }),
+        Role.findOne({ where: { name: ROLES.TRAVELLER }, transaction: t }),
+      ]);
+      if (!individualRole || !travellerRole) {
+        throw new Error("Roles not found. Run seeder first.");
+      }
+
+      await UserRole.bulkCreate([
+        { user_id: user.id, role_id: individualRole.id },
+        { user_id: user.id, role_id: travellerRole.id },
+      ], { transaction: t });
+
+      await assignReferralCode(user.id, t);
+      if (decodedToken.referral_code) {
+        setImmediate(() => processReferralOnSignup(user.id, decodedToken.referral_code));
+      }
+    });
+
+    user = await User.findOne({
+      where: { email },
+      include: [
+        {
+          model: Role,
+          as: "roles",
+          through: { attributes: [] },
+        },
+        {
+          model: TravellerKYC,
+          as: "travellerKYC",
+          attributes: ["status"],
+        },
+      ],
+    });
+  }
+
+  const dbRoles = user.roles.map((r) => r.name);
+  const activeRole = dbRoles.includes(ROLES.TRAVELLER)
+    ? ROLES.TRAVELLER
+    : dbRoles.includes(ROLES.INDIVIDUAL)
+      ? ROLES.INDIVIDUAL
+      : dbRoles[0] || ROLES.INDIVIDUAL;
+
+  const token = await generateToken({ userId: user.id });
+
+  auditLog({
+    action:       "USER_LOGIN",
+    actorId:      user.id,
+    actorRole:    activeRole,
+    resourceType: "user",
+    resourceId:   user.id,
+    meta:         { email: user.email, activeRole },
+  });
+
+  return {
+    token,
+    user: {
+      id:           user.id,
+      email:        user.email,
+      phone_number: user.phone_number,
+    },
+    activeRole,
+    roles:     dbRoles,
+    kycStatus: user.travellerKYC?.status || KYC_STATUS.NOT_STARTED,
   };
 }
 

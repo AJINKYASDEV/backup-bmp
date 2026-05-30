@@ -148,3 +148,17 @@ export async function logoutController(req, res) {
     return responseError(res, err.message || "Logout failed", 500);
   }
 }
+
+
+export async function firebaseLoginController(req, res) {
+  try {
+    const { token, provider } = req.body;
+    if (!token || !provider) {
+      return responseError(res, "Token and provider are required", 400);
+    }
+    const result = await authService.firebaseLogin(token, provider);
+    return responseSuccess(res, result, "Login successful", 200);
+  } catch (err) {
+    return responseError(res, err.message, 400);
+  }
+}

@@ -134,6 +134,7 @@ export const parcelRequestSchema = Joi.object({
   delivery_speed: Joi.string().optional(),
   parcel_type:    Joi.string().max(100).optional().allow("", null), // user content type e.g. "Documents"
   value:          Joi.number().min(0).optional().allow(null),
+  vehicle_type:   Joi.string().max(50).optional().allow("", null), // user preferred vehicle type e.g. "van"
   notes:          Joi.string().max(500).optional().allow("", null),
   price_quote:    Joi.number().min(0).optional().allow(null),
   pickup_address:   addressSchema.required(),
@@ -142,6 +143,9 @@ export const parcelRequestSchema = Joi.object({
   form_step:              Joi.number().integer().min(1).max(3).optional().allow(null),
   selected_partner_id:    Joi.string().uuid().optional().allow("", null),
   selected_acceptance_id: Joi.string().uuid().optional().allow("", null),
+  // Preferred pickup scheduling (optional)
+  pickup_date:            Joi.string().isoDate().optional().allow("", null),
+  pickup_time:            Joi.string().pattern(/^\d{2}:\d{2}$/).optional().allow("", null),
 }).options({ allowUnknown: false });
 
 // ─── Middleware: Parse JSON strings from multipart form-data ──────────────────

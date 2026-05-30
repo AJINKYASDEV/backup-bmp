@@ -2,6 +2,7 @@ import express from "express";
 import {
   signupController,
   loginController,
+  firebaseLoginController,
   updateUserProfile,
   getProfileController,
   uploadProfilePhotoController,
@@ -19,6 +20,7 @@ const router = express.Router();
 // Public routes with rate limiting
 router.post("/signup", signupLimiter, signupController);
 router.post("/login", loginLimiter, loginController);
+router.post("/firebase-login", loginLimiter, firebaseLoginController);
 
 // Forgot password (public — single endpoint handles both steps)
 router.post("/forgot-password", otpGenerationLimiter, forgotPasswordController);
