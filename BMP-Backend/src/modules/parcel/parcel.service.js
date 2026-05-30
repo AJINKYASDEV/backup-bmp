@@ -257,7 +257,8 @@ export async function createParcelRequest(data, files) {
             data.weight || 1,
             data.length,
             data.width,
-            data.height
+            data.height,
+            data.vehicle_type
           );
           suggestedPrice = priceResult.price;
           // Attach surge info to data so it can be returned to the FE
@@ -300,11 +301,15 @@ export async function createParcelRequest(data, files) {
           description:           data.description || null,
           parcel_type:           data.parcel_type  || null, // user's content type e.g. "Documents"
           value:                 data.value      || null,
+          vehicle_type:          data.vehicle_type, // user's preferred vehicle type
           notes:                 data.notes      || null,
           photos:                photoPaths,
           pickup_address_id:     pickupAddress.id,
           delivery_address_id:   deliveryAddress.id,
           selected_partner_id:   data.selected_partner_id || null,
+          // Persist optional preferred pickup date/time if provided
+          pickup_date:           data.pickup_date || data.pickupDate || null,
+          pickup_time:           data.pickup_time || data.pickupTime || null,
           // Use calculated suggestedPrice as the final price_quote
           price_quote:           suggestedPrice || data.price_quote || null,
           route_distance_km:     routeDistance,
@@ -317,6 +322,7 @@ export async function createParcelRequest(data, files) {
       );
 
       await t.commit();
+
       return {
         parcel,
         pickupAddress,
