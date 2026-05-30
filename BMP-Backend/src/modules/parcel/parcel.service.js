@@ -307,6 +307,9 @@ export async function createParcelRequest(data, files) {
           pickup_address_id:     pickupAddress.id,
           delivery_address_id:   deliveryAddress.id,
           selected_partner_id:   data.selected_partner_id || null,
+          // Persist optional preferred pickup date/time if provided
+          pickup_date:           data.pickup_date || data.pickupDate || null,
+          pickup_time:           data.pickup_time || data.pickupTime || null,
           // Use calculated suggestedPrice as the final price_quote
           price_quote:           suggestedPrice || data.price_quote || null,
           route_distance_km:     routeDistance,
@@ -319,6 +322,7 @@ export async function createParcelRequest(data, files) {
       );
 
       await t.commit();
+
       return {
         parcel,
         pickupAddress,

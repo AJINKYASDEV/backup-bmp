@@ -29,6 +29,9 @@ const Parcel = sequelize.define(
     notes: { type: DataTypes.TEXT },
     photos: { type: DataTypes.JSON },
     pickup_address_id: { type: DataTypes.UUID, allowNull: false },
+    // Optional preferred pickup date/time provided by sender
+    pickup_date: { type: DataTypes.DATEONLY, allowNull: true },
+    pickup_time: { type: DataTypes.TIME, allowNull: true },
     delivery_address_id: { type: DataTypes.UUID, allowNull: false },
     selected_partner_id: { type: DataTypes.UUID },
     price_quote: { type: DataTypes.FLOAT },

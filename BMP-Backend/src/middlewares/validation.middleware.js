@@ -143,6 +143,9 @@ export const parcelRequestSchema = Joi.object({
   form_step:              Joi.number().integer().min(1).max(3).optional().allow(null),
   selected_partner_id:    Joi.string().uuid().optional().allow("", null),
   selected_acceptance_id: Joi.string().uuid().optional().allow("", null),
+  // Preferred pickup scheduling (optional)
+  pickup_date:            Joi.string().isoDate().optional().allow("", null),
+  pickup_time:            Joi.string().pattern(/^\d{2}:\d{2}$/).optional().allow("", null),
 }).options({ allowUnknown: false });
 
 // ─── Middleware: Parse JSON strings from multipart form-data ──────────────────
