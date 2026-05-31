@@ -24,7 +24,7 @@ export const mockPanResponse = ({ panNumber, fullName, dob }) => {
         date_of_birth: dob,
       },
       contact_info: {
-        full_address: "Flat 101, MG Road, Pune, Maharashtra, 411001",
+        full_address: "FLAT NO 303, SR NO 17/1A, SAI ENCLAVE-B TUSHAR PARK, Dhanori, DHANORI POLICE STATION, Pune City, Pune411015, Maharashtra, India",
       },
       kyc_status: {
         masked_aadhaar: "XXXX-XXXX-1234",

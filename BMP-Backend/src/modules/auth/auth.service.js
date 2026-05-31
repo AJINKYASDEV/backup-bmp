@@ -248,12 +248,17 @@ export async function login(email, password, loginRole) {
 export async function firebaseLogin(firebaseToken, provider) {
   if (!firebaseToken) throw new Error("Firebase token is required");
   if (!provider) throw new Error("Provider is required");
+  if (!admin.apps.length) {
+    throw new Error(
+      "Firebase Admin SDK is not initialized. Set FIREBASE_SERVICE_ACCOUNT_KEY in the backend environment."
+    );
+  }
 
   let decodedToken;
   try {
     decodedToken = await admin.auth().verifyIdToken(firebaseToken);
   } catch (err) {
-    console.error("[FirebaseLogin] Invalid Firebase token:", err.message);
+    console.error("[FirebaseLogin] Firebase token verification failed:", err.message);
     throw new Error("Invalid Firebase token");
   }
 
