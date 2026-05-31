@@ -183,8 +183,8 @@ const Login = () => {
         console.log(err);
 
         setError(
-          err?.response?.data
-            ?.message ||
+          err?.response?.data?.message ||
+            err.message ||
             "Google login failed"
         );
 
@@ -229,8 +229,8 @@ const Login = () => {
         console.log(err);
 
         setError(
-          err?.response?.data
-            ?.message ||
+          err?.response?.data?.message ||
+            err.message ||
             "Facebook login failed"
         );
 
@@ -275,8 +275,8 @@ const Login = () => {
         console.log(err);
 
         setError(
-          err?.response?.data
-            ?.message ||
+          err?.response?.data?.message ||
+            err.message ||
             "Apple login failed"
         );
 
