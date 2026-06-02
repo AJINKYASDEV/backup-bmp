@@ -74,8 +74,9 @@ const AuthForm = ({
         return;
       }
       if (key === "password") {
-        const error = validatePassword(value);
-        if (error) newErrors.password = error;
+        if (!value) {
+          newErrors.password = "Password is required";
+        }
         return;
       }
       if (key === "confirmPassword") {

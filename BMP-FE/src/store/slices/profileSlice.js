@@ -58,6 +58,10 @@ const profileSlice = createSlice({
     clearProfileErrors: (state) => {
       state.error = null;
     },
+    setLiveStats: (state, action) => {
+      state.liveStats = action.payload;
+      state.loadingStats = false;
+    },
   },
   extraReducers: (builder) => {
     builder
