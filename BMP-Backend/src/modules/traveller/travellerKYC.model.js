@@ -98,8 +98,8 @@ const TravellerKYC = sequelize.define(
     // id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true
     },
 
