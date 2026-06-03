@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Book My Parcel API Docs</title>
+  <title>Book My Parcel API Documentation</title>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+  <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist/favicon-32x32.png" sizes="32x32" />
+  <style>
+    .swagger-ui .topbar { display: none; }
+    .swagger-ui .info { margin: 20px 0; }
+  </style>
 </head>
 <body>
   <div id="swagger-ui"></div>
@@ -11,7 +16,19 @@
   <script>
     SwaggerUIBundle({
       url: './swagger.json',
-      dom_id: '#swagger-ui'
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIBundle.presets.standalone
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout",
+      tryItOutEnabled: true,
+      defaultModelsExpandDepth: 1,
+      defaultModelExpandDepth: 1
     });
   </script>
 </body>
