@@ -32,12 +32,12 @@ const TravelerDetailsPayments = ({ payments = [], totalEarnings = 0 }) => {
 
       {/* Total Earnings Header */}
       <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div>
             <h3 className="text-sm text-gray-600">Total Earnings</h3>
-            <p className="text-3xl font-bold text-green-600">₹{total.toLocaleString()}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-green-600 break-words">₹{total.toLocaleString()}</p>
           </div>
-          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center shrink-0">
             <FiDollarSign className="text-green-600" size={24} />
           </div>
         </div>
@@ -55,23 +55,23 @@ const TravelerDetailsPayments = ({ payments = [], totalEarnings = 0 }) => {
           <div className="space-y-3">
             {payments.map((p) => (
               <div key={p.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                       <FiDollarSign className="text-green-600" size={18} />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-medium text-gray-900">Delivery earning</p>
                       {(p.booking_ref || p.parcel_ref) && (
-                        <p className="text-sm text-gray-500">{p.booking_ref || p.parcel_ref}</p>
+                        <p className="text-sm text-gray-500 truncate">{p.booking_ref || p.parcel_ref}</p>
                       )}
                       <p className="text-xs text-gray-400">
                         {p.createdAt ? new Date(p.createdAt).toLocaleString() : "—"}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-lg text-green-600">
+                  <div className="text-left sm:text-right">
+                    <p className="font-bold text-base sm:text-lg text-green-600">
                       +₹{Number(p.amount || 0).toLocaleString()}
                     </p>
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor(p.status)}`}>
@@ -86,12 +86,12 @@ const TravelerDetailsPayments = ({ payments = [], totalEarnings = 0 }) => {
       </div>
 
       {/* Payment Stats */}
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
         <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
           <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
             <FiTrendingUp className="text-blue-600" size={18} />
           </div>
-          <p className="text-2xl font-bold text-gray-900">₹{thisMonthEarnings.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">₹{thisMonthEarnings.toLocaleString()}</p>
           <p className="text-sm text-gray-500">This Month</p>
         </div>
 
@@ -99,15 +99,15 @@ const TravelerDetailsPayments = ({ payments = [], totalEarnings = 0 }) => {
           <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
             <FiDollarSign className="text-green-600" size={18} />
           </div>
-          <p className="text-2xl font-bold text-gray-900">₹{avgPerDelivery.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">₹{avgPerDelivery.toLocaleString()}</p>
           <p className="text-sm text-gray-500">Avg per Delivery</p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
+        <div className="bg-white border border-gray-200 rounded-lg p-4 text-center sm:col-span-2 xl:col-span-1">
           <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
             <FiClock className="text-orange-600" size={18} />
           </div>
-          <p className="text-2xl font-bold text-gray-900">₹{pendingWithdrawal.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">₹{pendingWithdrawal.toLocaleString()}</p>
           <p className="text-sm text-gray-500">Pending Withdrawal</p>
         </div>
       </div>

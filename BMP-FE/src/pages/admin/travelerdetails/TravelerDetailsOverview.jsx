@@ -16,9 +16,9 @@ const VerificationCard = ({ label, verified }) => (
 );
 
 const Field = ({ label, value }) => (
-  <div>
+  <div className="min-w-0">
     <label className="text-sm text-gray-500">{label}</label>
-    <p className="font-medium text-gray-900">{value || "—"}</p>
+    <p className="font-medium text-gray-900 break-words">{value || "—"}</p>
   </div>
 );
 
@@ -34,14 +34,14 @@ const TravelerDetailsOverview = ({ traveler = {} }) => {
     <div className="space-y-6">
 
       {/* Verification Status Cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
         <VerificationCard label="Partner Status"   verified={isKycApproved} />
         <VerificationCard label="License Verified" verified={!!traveler.driving_number} />
         <VerificationCard label="Aadhar Verified"  verified={!!traveler.aadhar_number} />
         <VerificationCard label="KYC Status"       verified={isKycApproved} />
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
 
         {/* Partner Information */}
         <div>
@@ -76,12 +76,12 @@ const TravelerDetailsOverview = ({ traveler = {} }) => {
       </div>
 
       {/* Performance Summary */}
-      <div className="bg-green-50 rounded-lg p-6">
+      <div className="bg-green-50 rounded-lg p-4 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FiActivity className="text-green-600" />
           Performance Summary
         </h3>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
           <div className="text-center">
             <div className="text-2xl font-bold text-gray-900">{totalDeliveries}</div>
             <div className="text-sm text-gray-600">Total Deliveries</div>
@@ -110,7 +110,7 @@ const TravelerDetailsOverview = ({ traveler = {} }) => {
       {/* Contact Information */}
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           <div className="space-y-4">
             <Field label="Email"  value={traveler.email} />
             <Field label="Aadhar" value={traveler.aadhar_number} />

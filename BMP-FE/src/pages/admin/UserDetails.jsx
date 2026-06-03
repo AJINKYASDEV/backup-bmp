@@ -105,17 +105,17 @@ const UserDetails = () => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
+    <div className="bg-gray-100 min-h-screen p-3 sm:p-4 lg:p-6 overflow-x-hidden">
 
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
 
-        <div className="flex items-center bg-white px-4 py-2 rounded-lg w-[420px] shadow-sm">
-          <FiSearch className="text-gray-400 mr-2" />
+        <div className="flex items-center bg-white px-3 sm:px-4 py-2 rounded-lg w-full max-w-md shadow-sm min-w-0">
+          <FiSearch className="text-gray-400 mr-2 shrink-0" />
           <input
             type="text"
             placeholder="Search users, partners, bookings..."
-            className="outline-none text-sm w-full"
+            className="outline-none text-sm w-full min-w-0"
           />
         </div>
 
@@ -135,15 +135,15 @@ const UserDetails = () => {
         </div> */}
 
       </div>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-xl font-semibold">User Details</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-4">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-semibold">User Details</h1>
           <p className="text-gray-500 text-sm">
             Complete information about
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto sm:justify-end">
           <button
             onClick={() => exportUserPDF(user, bookings, payments)}
             className="border px-4 py-2 rounded-md text-sm flex items-center justify-center gap-2 bg-white hover:bg-gray-50">
@@ -153,20 +153,20 @@ const UserDetails = () => {
       </div>
 
       {/* PROFILE CARD */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-xl mb-6 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 sm:p-6 rounded-xl mb-6">
 
-  <div className="flex items-center gap-5">
+  <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 min-w-0">
 
     {/* USER INITIAL */}
-    <div className="w-16 h-16 bg-white/20 flex items-center justify-center rounded-lg text-xl font-bold">
+    <div className="w-16 h-16 bg-white/20 flex items-center justify-center rounded-lg text-xl font-bold shrink-0">
       {user?.name?.charAt(0)}
     </div>
 
-    <div>
+    <div className="min-w-0">
 
       {/* NAME + STATUS */}
-      <h2 className="text-xl font-semibold flex items-center gap-3">
-        {user?.name}
+      <h2 className="text-xl font-semibold flex flex-wrap items-center gap-2 sm:gap-3">
+        <span className="break-words">{user?.name}</span>
 
         <span className="bg-green-500 text-xs px-2 py-1 rounded-full flex items-center gap-1">
           {user?.is_active ? "Active" : "Inactive"}
@@ -174,31 +174,31 @@ const UserDetails = () => {
       </h2>
 
       {/* CONTACT INFO ROW */}
-      <div className="flex flex-wrap items-center gap-6 text-sm mt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-6 text-sm mt-2">
 
-        <span className="flex items-center gap-2">
-          <FiMail className="text-white/80" />
-          {user?.email}
+        <span className="flex items-center gap-2 min-w-0">
+          <FiMail className="text-white/80 shrink-0" />
+          <span className="truncate">{user?.email}</span>
         </span>
 
-        <span className="flex items-center gap-2">
-          <FiPhone className="text-white/80" />
-          {user?.phone_number}
+        <span className="flex items-center gap-2 min-w-0">
+          <FiPhone className="text-white/80 shrink-0" />
+          <span className="truncate">{user?.phone_number}</span>
         </span>
-      </div>
-      <div className="flex flex-wrap items-center gap-6 text-sm mt-2">
         
-        <span className="flex items-center gap-2">
-          <FiMapPin className="text-white/80" />
-          {user?.city}, {user?.state}
+        <span className="flex items-center gap-2 min-w-0">
+          <FiMapPin className="text-white/80 shrink-0" />
+          <span className="truncate">{user?.city}, {user?.state}</span>
         </span>
 
-        <span className="flex items-center gap-2">
-          <FiCalendar className="text-white/80" />
-          Joined{" "}
-          {user?.createdAt
-            ? new Date(user.createdAt).toLocaleDateString()
-            : ""}
+        <span className="flex items-center gap-2 min-w-0">
+          <FiCalendar className="text-white/80 shrink-0" />
+          <span className="truncate">
+            Joined{" "}
+            {user?.createdAt
+              ? new Date(user.createdAt).toLocaleDateString()
+              : ""}
+          </span>
         </span>
       </div>
 
@@ -208,8 +208,8 @@ const UserDetails = () => {
 </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-        <div className="bg-white p-5 rounded-xl shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 mb-6">
+        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-sm">
           <div className="bg-blue-500 w-10 h-10 flex items-center justify-center rounded-lg mb-2">
             <FiBox className="text-white text-lg" />
           </div>
@@ -218,7 +218,7 @@ const UserDetails = () => {
           <p className="text-gray-500 text-sm">Total Bookings</p>
         </div>
 
-        <div className="bg-white p-5 rounded-xl shadow-sm">
+        <div className="bg-white p-4 sm:p-5 rounded-xl shadow-sm">
           <div className="bg-green-500 w-10 h-10 flex items-center justify-center rounded-lg mb-2">
             <BsCurrencyRupee className="text-white text-lg" />
           </div>
@@ -227,7 +227,7 @@ const UserDetails = () => {
           <p className="text-gray-500 text-sm">Total Spent</p>
         </div>
 
-<div className="bg-white p-5 rounded-xl shadow-sm">
+<div className="bg-white p-4 sm:p-5 rounded-xl shadow-sm sm:col-span-2 xl:col-span-1">
           <div className="bg-pink-500 w-10 h-10 flex items-center justify-center rounded-lg mb-2">
             <FiClock className="text-white text-lg" />
           </div>
@@ -240,48 +240,48 @@ const UserDetails = () => {
       </div>
 
       {/* TABS */}
-      <div className="bg-white rounded-xl shadow">
+      <div className="bg-white rounded-xl shadow overflow-hidden">
 
-        <div className="flex gap-6 border-b px-6 pt-4 text-sm">
+        <div className="flex gap-5 sm:gap-6 border-b px-4 sm:px-6 pt-4 text-sm overflow-x-auto">
 
           <button
             onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_OVERVIEW)}
-            className={activeTab === RoutePath.ADMIN_USERDETAILS_OVERVIEW ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}
+            className={`whitespace-nowrap ${activeTab === RoutePath.ADMIN_USERDETAILS_OVERVIEW ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}`}
           >
             Overview
           </button>
 
           <button
             onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_BOOKINGS)}
-            className={activeTab === RoutePath.ADMIN_USERDETAILS_BOOKINGS ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}
+            className={`whitespace-nowrap ${activeTab === RoutePath.ADMIN_USERDETAILS_BOOKINGS ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}`}
           >
             Bookings
           </button>
 
           <button
-            onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_PAYMENT)}
-            className={activeTab === RoutePath.ADMIN_USERDETAILS_PAYMENT ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}
+            onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_PAYMENTS)}
+            className={`whitespace-nowrap ${activeTab === RoutePath.ADMIN_USERDETAILS_PAYMENTS ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}`}
           >
             Payments
           </button>
 
           <button
             onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_ACTIVITY)}
-            className={activeTab === RoutePath.ADMIN_USERDETAILS_ACTIVITY ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}
+            className={`whitespace-nowrap ${activeTab === RoutePath.ADMIN_USERDETAILS_ACTIVITY ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}`}
           >
             Activity
           </button>
 
           <button
             onClick={() => setActiveTab(RoutePath.ADMIN_USERDETAILS_DOCUMENTS)}
-            className={activeTab === RoutePath.ADMIN_USERDETAILS_DOCUMENTS ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}
+            className={`whitespace-nowrap ${activeTab === RoutePath.ADMIN_USERDETAILS_DOCUMENTS ? "border-b-2 border-blue-600 pb-2 text-blue-600" : "text-gray-500"}`}
           >
             Documents
           </button>
 
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
 
           {activeTab === RoutePath.ADMIN_USERDETAILS_OVERVIEW && (
             <DetailsOverview user={user} />
@@ -291,7 +291,7 @@ const UserDetails = () => {
             <DetailsBookings bookings={bookings} />
           )}
 
-          {activeTab === RoutePath.ADMIN_USERDETAILS_PAYMENT && (
+          {activeTab === RoutePath.ADMIN_USERDETAILS_PAYMENTS && (
             <DetailsPayment payments={payments} totalSpent={user?.total_spent} />
           )}
 

@@ -3,7 +3,7 @@ import { FiTruck, FiMapPin, FiStar, FiCheckCircle, FiXCircle, FiClock } from "re
 
 const StatCard = ({ label, value, sub }) => (
   <div className="bg-white border border-gray-200 p-4 rounded-xl text-center">
-    <p className="text-2xl font-bold text-gray-900">{value}</p>
+    <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">{value}</p>
     <p className="text-sm text-gray-500">{label}</p>
     {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
   </div>
@@ -24,7 +24,7 @@ const TravelerDetailsActivity = ({ traveler = {} }) => {
     <div className="mt-6 space-y-6">
 
       {/* Top Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 min-[420px]:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
         <StatCard label="Total Deliveries" value={total} />
         <StatCard label="Completed"        value={completed} />
         <StatCard label="Active Routes"    value={routes} />
@@ -32,12 +32,12 @@ const TravelerDetailsActivity = ({ traveler = {} }) => {
       </div>
 
       {/* Delivery Breakdown */}
-      <div className="bg-white border border-gray-100 rounded-xl p-6">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 sm:p-6">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FiTruck className="text-purple-500" size={18} />
           Delivery Breakdown
         </h3>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
               <FiCheckCircle className="text-green-600" size={18} />
@@ -83,18 +83,18 @@ const TravelerDetailsActivity = ({ traveler = {} }) => {
       </div>
 
       {/* Earnings Performance */}
-      <div className="bg-white border border-gray-100 rounded-xl p-6">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 sm:p-6">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FiStar className="text-yellow-500" size={18} />
           Earnings Performance
         </h3>
-        <div className="grid grid-cols-3 gap-6 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
           <div>
-            <p className="text-2xl font-bold text-gray-900">₹{earnings.toLocaleString()}</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">₹{earnings.toLocaleString()}</p>
             <p className="text-sm text-gray-500">Total Earnings</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">₹{avgEarning.toLocaleString()}</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900 break-words">₹{avgEarning.toLocaleString()}</p>
             <p className="text-sm text-gray-500">Avg per Delivery</p>
           </div>
           <div>
@@ -105,12 +105,12 @@ const TravelerDetailsActivity = ({ traveler = {} }) => {
       </div>
 
       {/* Rating */}
-      <div className="bg-yellow-50 border border-yellow-100 rounded-xl p-6">
+      <div className="bg-yellow-50 border border-yellow-100 rounded-xl p-4 sm:p-6">
         <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
           <FiStar className="text-yellow-500" size={18} />
           Customer Rating
         </h3>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
           <div className="text-center">
             <p className="text-5xl font-bold text-gray-900">{rating}</p>
             <div className="flex justify-center gap-0.5 mt-1">
@@ -125,7 +125,7 @@ const TravelerDetailsActivity = ({ traveler = {} }) => {
             </div>
             <p className="text-sm text-gray-500 mt-1">{reviews} reviews</p>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             {[5,4,3,2,1].map(star => {
               const pct = reviews > 0 ? Math.round((star === Math.round(Number(rating)) ? reviews * 0.6 : reviews * 0.1) / reviews * 100) : 0;
               return (
