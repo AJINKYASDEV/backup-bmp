@@ -17,32 +17,32 @@ export const DeliveryModal = ({ booking, onClose }) => {
       <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-500 px-6 py-5 flex items-start justify-between">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/20 rounded-xl p-2.5">
-              <LuTruck size={26} className="text-white" />
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-500 px-4 sm:px-6 py-4 sm:py-5 flex items-start justify-between">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+            <div className="bg-white/20 rounded-xl p-2 sm:p-2.5 shrink-0">
+              <LuTruck size={22} className="text-white" />
             </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h2 className="text-white text-xl font-bold">{booking.id}</h2>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <h2 className="text-white text-base sm:text-xl font-bold truncate">{booking.id}</h2>
                 <BookingStatusBadge status={booking.rawStatus} />
               </div>
-              <div className="flex items-center gap-4 mt-1 text-white/80 text-sm">
+              <div className="flex items-center gap-2 sm:gap-4 mt-1 text-white/80 text-xs sm:text-sm flex-wrap">
                 <span>₹{booking.amount}</span>
                 <span>{booking.createdAt}</span>
               </div>
             </div>
           </div>
-          <button onClick={onClose} className="bg-white/20 hover:bg-white/30 text-white rounded-full p-1.5 transition">
+          <button onClick={onClose} className="bg-white/20 hover:bg-white/30 text-white rounded-full p-1.5 transition shrink-0">
             <FiX size={18} />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-100 px-6 bg-white">
+        <div className="flex border-b border-gray-100 px-3 sm:px-6 bg-white overflow-x-auto">
           {TABS.map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`py-3 px-4 text-sm font-medium border-b-2 transition -mb-px ${
+              className={`py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-b-2 transition -mb-px whitespace-nowrap ${
                 activeTab === tab ? "border-purple-500 text-purple-500" : "border-transparent text-gray-500 hover:text-gray-700"
               }`}>
               {tab}
@@ -51,12 +51,12 @@ export const DeliveryModal = ({ booking, onClose }) => {
         </div>
 
         {/* Body */}
-        <div className="overflow-y-auto flex-1 p-6 space-y-4 bg-gray-50">
+        <div className="overflow-y-auto flex-1 p-4 sm:p-6 space-y-4 bg-gray-50">
 
           {activeTab === "Overview" && (
             <>
               {/* Route Details */}
-              <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+              <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 sm:p-5">
                 <h3 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
                   <TbNavigation className="text-blue-500" size={18} /> Route Details
                 </h3>
@@ -109,7 +109,7 @@ export const DeliveryModal = ({ booking, onClose }) => {
                 <h3 className="flex items-center gap-2 font-semibold text-gray-800 mb-4">
                   <LuPackage className="text-orange-500" size={16} /> Parcel Details
                 </h3>
-                <div className="grid grid-cols-2 gap-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3">
                   <Field label="Type"   value={booking.parcel.type} />
                   <Field label="Weight" value={booking.parcel.weight} />
                 </div>
@@ -150,24 +150,24 @@ const PayRow = ({ label, value }) => (
 /* ── Delivery list card ──────────────────────────────────────────────── */
 const DeliveryCard = ({ booking, onOpen }) => (
   <div onClick={() => onOpen(booking)}
-    className="flex items-center justify-between bg-white border border-gray-100 hover:border-purple-200 hover:shadow-sm transition cursor-pointer px-4 py-3 rounded-xl">
-    <div className="flex items-center gap-3">
+    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-white border border-gray-100 hover:border-purple-200 hover:shadow-sm transition cursor-pointer px-3 sm:px-4 py-3 rounded-xl">
+    <div className="flex items-center gap-3 min-w-0">
       <div className="bg-purple-500 text-white w-10 h-10 flex items-center justify-center rounded-xl shrink-0">
         <LuTruck size={18} />
       </div>
-      <div>
-        <p className="font-bold text-sm text-gray-900">{booking.id}</p>
+      <div className="min-w-0">
+        <p className="font-bold text-sm text-gray-900 truncate">{booking.id}</p>
         <p className="text-xs text-gray-400 mb-1">{booking.createdAt}</p>
         <div className="text-xs text-gray-500 space-y-0.5">
-          <p className="flex items-center gap-1.5"><FiMapPin className="text-green-500 shrink-0" size={12} />{booking.pickup.label}</p>
-          <p className="flex items-center gap-1.5"><FiMapPin className="text-red-400 shrink-0" size={12} />{booking.drop.label}</p>
+          <p className="flex items-center gap-1.5 min-w-0"><FiMapPin className="text-green-500 shrink-0" size={12} /><span className="truncate">{booking.pickup.label}</span></p>
+          <p className="flex items-center gap-1.5 min-w-0"><FiMapPin className="text-red-400 shrink-0" size={12} /><span className="truncate">{booking.drop.label}</span></p>
           {booking.sender?.name && booking.sender.name !== "Not Assigned" && (
-            <p className="flex items-center gap-1.5"><FiUser className="text-blue-400 shrink-0" size={12} />Sender: {booking.sender.name}</p>
+            <p className="flex items-center gap-1.5 min-w-0"><FiUser className="text-blue-400 shrink-0" size={12} /><span className="truncate">Sender: {booking.sender.name}</span></p>
           )}
         </div>
       </div>
     </div>
-    <div className="text-right flex flex-col items-end gap-1.5 shrink-0 ml-4">
+    <div className="text-left sm:text-right flex flex-row sm:flex-col items-center sm:items-end justify-between gap-2 sm:gap-1.5 shrink-0 sm:ml-4">
       <p className="font-bold text-sm text-gray-900">₹{booking.amount || "—"}</p>
       <BookingStatusBadge status={booking.rawStatus} />
     </div>

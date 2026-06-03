@@ -71,7 +71,7 @@ const DetailsDocuments = ({ user = {} }) => {
       {/* Account Info */}
       <div className="bg-gray-50 rounded-xl p-4 sm:p-5 border border-gray-100">
         <h3 className="text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3 sm:mb-4">Account Details</h3>
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
           <div>
             <p className="text-gray-400 text-[10px] sm:text-xs mb-1">User ID</p>
             <p className="font-medium text-gray-800 text-xs sm:text-sm truncate">{user.id || "—"}</p>

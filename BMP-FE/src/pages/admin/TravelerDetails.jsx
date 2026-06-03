@@ -105,31 +105,31 @@ const TravelerDetails = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       
       {/* HEADER */}
-      <div className="bg-white border-b px-6 py-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border-b px-3 sm:px-4 lg:px-6 py-4">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 min-w-0">
             <button 
               onClick={() => navigate(-1)}
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 rounded-lg shrink-0"
             >
               <FiArrowLeft size={20} />
             </button>
             
-            <div className="flex items-center bg-gray-50 px-4 py-2 rounded-lg w-[320px]">
-              <FiSearch className="text-gray-400 mr-2" size={16} />
+            <div className="flex items-center bg-gray-50 px-3 sm:px-4 py-2 rounded-lg w-full max-w-md min-w-0">
+              <FiSearch className="text-gray-400 mr-2 shrink-0" size={16} />
               <input
                 type="text"
                 placeholder="Search users, partners, bookings..."
-                className="outline-none text-sm w-full bg-transparent"
+                className="outline-none text-sm w-full bg-transparent min-w-0"
               />
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 justify-end">
             <span className="text-sm text-gray-600">Super Admin</span>
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
               SA
@@ -138,21 +138,21 @@ const TravelerDetails = () => {
         </div>
       </div>
 
-      <div className="px-6 py-6">
+      <div className="px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         
         {/* PAGE TITLE */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Traveler Details</h1>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Traveler Details</h1>
             <p className="text-gray-500 text-sm mt-1">
               Complete information about {traveler?.name || 'Rajesh Verma'}
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 sm:justify-end">
             <button
               onClick={() => exportTravelerPDF(traveler, bookings, payments)}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+              className="flex w-full sm:w-auto items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 bg-white">
               <FiDownload size={16} />
               Export Data
             </button>
@@ -160,18 +160,18 @@ const TravelerDetails = () => {
         </div>
 
         {/* PROFILE HEADER */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-6 mb-6 text-white">
-          <div className="flex items-center justify-between">
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-4 sm:p-6 mb-6 text-white">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 min-w-0">
               {/* Avatar */}
-              <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center text-2xl font-bold">
+              <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center text-2xl font-bold shrink-0">
                 {getInitials(traveler?.name)}
               </div>
               
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-2xl font-semibold">{traveler?.name || 'Rajesh Verma'}</h2>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                  <h2 className="text-xl sm:text-2xl font-semibold break-words">{traveler?.name || 'Rajesh Verma'}</h2>
                   
                   {traveler?.kyc_verified && (
                     <span className="bg-green-500 text-xs px-2 py-1 rounded-full flex items-center gap-1">
@@ -184,31 +184,28 @@ const TravelerDetails = () => {
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-6 text-sm opacity-90">
-                  <span className="flex items-center gap-2">
-                    <FiMail size={14} />
-                    {traveler?.email || 'rajesh.verma@email.com'}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-x-6 text-sm opacity-90">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <FiMail size={14} className="shrink-0" />
+                    <span className="truncate">{traveler?.email || 'rajesh.verma@email.com'}</span>
                   </span>
-                  <span className="flex items-center gap-2">
-                    <FiPhone size={14} />
-                    {traveler?.phone_number || '+91 98765 43210'}
+                  <span className="flex items-center gap-2 min-w-0">
+                    <FiPhone size={14} className="shrink-0" />
+                    <span className="truncate">{traveler?.phone_number || '+91 98765 43210'}</span>
                   </span>
-                </div>
-                
-                <div className="flex items-center gap-6 text-sm opacity-90 mt-1">
-                  <span className="flex items-center gap-2">
-                    <FiMapPin size={14} />
-                    {traveler?.city || 'Mumbai'}, {traveler?.state || 'Maharashtra'}
+                  <span className="flex items-center gap-2 min-w-0">
+                    <FiMapPin size={14} className="shrink-0" />
+                    <span className="truncate">{traveler?.city || 'Mumbai'}, {traveler?.state || 'Maharashtra'}</span>
                   </span>
-                  <span className="flex items-center gap-2">
-                    <FiTruck size={14} />
-                    {traveler?.license_number || 'MH-02-AX-1234 (bike)'}
+                  <span className="flex items-center gap-2 min-w-0">
+                    <FiTruck size={14} className="shrink-0" />
+                    <span className="truncate">{traveler?.license_number || 'MH-02-AX-1234 (bike)'}</span>
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 sm:self-start xl:self-auto">
               <button className="p-2 bg-white/20 rounded-lg hover:bg-white/30">
                 <FiEdit size={18} />
               </button>
@@ -225,7 +222,7 @@ const TravelerDetails = () => {
           const completed = Number(traveler?.completed_deliveries) || 0;
           const successRate = total > 0 ? Math.round((completed / total) * 100) : 0;
           return (
-            <div className="grid grid-cols-5 gap-4 mb-6">
+            <div className="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-6">
               <div className="bg-white rounded-xl p-4 text-center">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <FiBox className="text-blue-600" size={20} />
@@ -278,15 +275,15 @@ const TravelerDetails = () => {
         })()}
 
         {/* TABS SECTION */}
-        <div className="bg-white rounded-xl shadow-sm">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           
           {/* Tab Navigation */}
           <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6">
+            <nav className="flex gap-5 sm:gap-8 px-4 sm:px-6 overflow-x-auto">
               
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === "overview"
                     ? "border-purple-500 text-purple-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -297,7 +294,7 @@ const TravelerDetails = () => {
 
               <button
                 onClick={() => setActiveTab("deliveries")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === "deliveries"
                     ? "border-purple-500 text-purple-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -311,7 +308,7 @@ const TravelerDetails = () => {
 
               <button
                 onClick={() => setActiveTab("earnings")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === "earnings"
                     ? "border-purple-500 text-purple-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -325,7 +322,7 @@ const TravelerDetails = () => {
 
               <button
                 onClick={() => setActiveTab("performance")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === "performance"
                     ? "border-purple-500 text-purple-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -336,7 +333,7 @@ const TravelerDetails = () => {
 
               <button
                 onClick={() => setActiveTab("documents")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   activeTab === "documents"
                     ? "border-purple-500 text-purple-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -349,7 +346,7 @@ const TravelerDetails = () => {
           </div>
 
           {/* Tab Content */}
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             
             {activeTab === "overview" && (
               <TravelerDetailsOverview traveler={traveler} />
