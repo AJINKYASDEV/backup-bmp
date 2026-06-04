@@ -57,6 +57,16 @@ const Payment = sequelize.define(
       allowNull: true,
     },
 
+    cashfree_order_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    cashfree_payment_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     status: {
       type: DataTypes.ENUM(
         ...Object.values(PAYMENT_STATUS)
