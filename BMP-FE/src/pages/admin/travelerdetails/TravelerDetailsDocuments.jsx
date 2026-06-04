@@ -11,17 +11,17 @@ const DocumentCard = ({ label, docNumber, fileUrl, verified }) => {
 
   return (
     <div className="bg-white border border-gray-100 rounded-xl p-5 hover:shadow-sm transition">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="bg-blue-50 text-blue-600 w-12 h-12 flex items-center justify-center rounded-lg">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="bg-blue-50 text-blue-600 w-12 h-12 flex items-center justify-center rounded-lg shrink-0">
             <FiFileText size={20} />
           </div>
-          <div>
-            <h4 className="font-semibold text-gray-900">{label}</h4>
-            {docNumber && <p className="text-sm text-gray-500">{docNumber}</p>}
+          <div className="min-w-0">
+            <h4 className="font-semibold text-gray-900 break-words">{label}</h4>
+            {docNumber && <p className="text-sm text-gray-500 break-words">{docNumber}</p>}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {verified
             ? <FiCheckCircle className="text-green-500" size={20} />
             : <FiXCircle className="text-gray-400" size={20} />}
@@ -80,8 +80,8 @@ const TravelerDetailsDocuments = ({ traveler = {} }) => {
     <div className="mt-6">
 
       {/* Summary Banner */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white p-6 rounded-xl mb-6">
-        <div className="flex items-center justify-between">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 sm:p-6 rounded-xl mb-6">
+        <div className="flex items-center justify-between gap-4">
           <div>
             <h3 className="text-lg font-semibold mb-1">Document Verification</h3>
             <p className="text-sm opacity-90">{verifiedCount} of {docs.length} documents verified</p>
@@ -115,7 +115,7 @@ const TravelerDetailsDocuments = ({ traveler = {} }) => {
 
       {/* Bank Details */}
       {(traveler.account_number || traveler.bank_name) && (
-        <div className="mt-6 bg-white border border-gray-100 rounded-xl p-5">
+        <div className="mt-6 bg-white border border-gray-100 rounded-xl p-4 sm:p-5">
           <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <FiFileText className="text-green-500" size={18} />
             Bank Details
@@ -123,7 +123,7 @@ const TravelerDetailsDocuments = ({ traveler = {} }) => {
               <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Verified</span>
             )}
           </h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-gray-500">Account Holder</p>
               <p className="font-medium text-gray-900">{traveler.account_holder || "—"}</p>
