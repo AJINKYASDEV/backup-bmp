@@ -12,7 +12,8 @@
     "generate-migration": "node scripts/generateMigration.js",
     "recover-migrations": "node scripts/recoverMigrations.js",
     "migration:generate": "sequelize-cli migration:generate",
-    "migrate": "sequelize-cli db:migrate"
+    "migrate": "sequelize-cli db:migrate",
+    "generate-swagger": "node scripts/generateSwaggerJson.js"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +46,8 @@
     "razorpay": "^2.9.6",
     "sequelize": "^6.37.7",
     "socket.io": "^4.8.3",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "twilio": "^5.3.7"
   },
   "devDependencies": {
