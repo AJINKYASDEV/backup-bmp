@@ -9,7 +9,7 @@ const CONFIGS = {
     quickLinks: [["/","Home"],["/about","About Us"],["/services","Services"],["/contact","Contact Us"]],
     supportTitle: "Support",
     supportLinks: [["/traveler-guidelines","Safety Guidelines"],["/termsandcondition","Terms & Conditions"],["/policy","Privacy Policy"],["/refund-policy","Refund & Cancellation Policy"],],
-    bottomLinks: [["/termsandcondition","Terms"],["/policy","Privacy"],["/refund-policy","Refund Policy"]],
+    
     badge: false, stats: false, verified: false,
   },
   traveler: {
@@ -17,7 +17,7 @@ const CONFIGS = {
     quickLinks: [["/travelerhome","Become a Traveler"],["/traveler-benefits","Traveler Benefits"],["/traveler-guidelines","Traveler Guidelines"],["/about","About Us"],],
     supportTitle: "Support and help",
     supportLinks: [["/traveler-guidelines","Traveler Guidelines"],["/termsandcondition","Terms & Conditions"],["/policy","Privacy Policy"],["/refund-policy","Refund & Cancellation Policy"],["/contact","Contact Us"]],
-    bottomLinks: [["/policy","Privacy Policy"],["/termsandcondition","Terms & Conditions"],["/refund-policy","Refund Policy"]],
+    
     badge: true, stats: true, verified: true,
   },
 };
