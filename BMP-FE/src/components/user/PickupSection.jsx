@@ -1,7 +1,7 @@
 import TextInput from "../../core/common/CommonUi";
 import AddressAutocomplete from "../../core/common/AddressAutocomplete";
 import TimePicker12h from "../../components/common/TimePicker12h.jsx"
-import {validateFutureDate } from "../../core/utils/validation.js";
+import { validateFutureDate } from "../../core/utils/validation.js";
 import { Home } from "lucide-react";
 import {
   nameTypingPattern,
@@ -15,6 +15,13 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
   const pat = (pattern, key) => (e) => {
     if (pattern.test(e.target.value)) updateFields({ [key]: e.target.value });
   };
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const currentTime =
+    data.pickupDate === today
+      ? new Date().toTimeString().slice(0, 5)
+      : null;
 
   return (
     <div className="px-6 py-6 bg-white border shadow-2xl rounded-3xl border-primary/20">
@@ -83,6 +90,7 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
             updateFields({ pickupDate: date });
           }}
         />
+        
         {/* <TextInput label="Preferred pickup time (optional)" name="pickupTime" type="time"
           value={data.pickupTime || ""}
           onChange={(e) => updateFields({ pickupTime: e.target.value })}
@@ -90,6 +98,7 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
         <TimePicker12h
           label="Preferred pickup time (optional)"
           value={data.pickupTime || ""}
+          minTime={currentTime}
           onChange={(time) => updateFields({ pickupTime: time })}
         />
       </div>
