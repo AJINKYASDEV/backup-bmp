@@ -99,7 +99,7 @@ const OrderSummary = ({ data: propData }) => {
             <Info icon={<Box size={14} />}          label="Size"          value={propData?.packageSize} />
             <Info icon={<Box size={14} />}          label="Weight"        value={propData?.parcelWeight ? `${propData.parcelWeight} kg` : null} />
             <Info icon={<Ruler size={14} />}        label="Dimensions"    value={dimensions} />
-            <Info icon={<IndianRupee size={14} />}  label="Declared Value" value={propData?.parcelValue ? `₹${propData.parcelValue}` : null} />
+            <Info icon={<IndianRupee size={14} />}  label="Parcel Value" value={propData?.parcelValue ? `₹${propData.parcelValue}` : null} />
             <Info icon={<FileText size={14} />}     label="Type"          value={propData?.parcelType} />
             <Info icon={<CheckCircle size={14} />}  label="Description"   value={propData?.parcelContents} />
             <Info icon={<StickyNote size={14} />}   label="Notes"         value={propData?.parcelNotes} />
