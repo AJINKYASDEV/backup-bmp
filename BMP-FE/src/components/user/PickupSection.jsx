@@ -1,5 +1,7 @@
 import TextInput from "../../core/common/CommonUi";
 import AddressAutocomplete from "../../core/common/AddressAutocomplete";
+import TimePicker12h from "../../components/common/TimePicker12h.jsx"
+import { validateFutureDate } from "../../core/utils/validation.js";
 import { Home } from "lucide-react";
 import {
   nameTypingPattern,
@@ -14,6 +16,13 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
     if (pattern.test(e.target.value)) updateFields({ [key]: e.target.value });
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
+  const currentTime =
+    data.pickupDate === today
+      ? new Date().toTimeString().slice(0, 5)
+      : null;
+
   return (
     <div className="px-6 py-6 bg-white border shadow-2xl rounded-3xl border-primary/20">
       <h2 className="flex items-center gap-2 mb-4 text-lg font-semibold text-primary">
@@ -24,9 +33,16 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
       </h2>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <TextInput label="Sender Name" name="senderName" value={data.senderName}
+        {/* <TextInput label="Sender Name" name="senderName" value={data.senderName}
           required={true}
-          onChange={pat(nameTypingPattern, "senderName")} placeholder="Enter sender name" />
+          onChange={pat(nameTypingPattern, "senderName")} placeholder="Enter sender name" /> */}
+        <TextInput
+          label="Sender Name"
+          name="senderName"
+          value={data.senderName}
+          maxLength={50}   // ✅ ADD THIS
+          onChange={pat(nameTypingPattern, "senderName")}
+        />
         <AddressAutocomplete label="Pickup Address" value={data.pickupAddress}
           required={true}
           onChange={(text) => updateFields({ pickupAddress: text, pickupPlaceId: "" })}
@@ -52,13 +68,38 @@ const PickupSection = ({ data, updateFields, geocodeAddress }) => {
       </div>
 
       <div className="grid gap-4 mt-4 md:grid-cols-2">
-        <TextInput label="Preferred pickup date (optional)" name="pickupDate" type="date"
+        {/* <TextInput label="Preferred pickup date (optional)" name="pickupDate" type="date"
           value={data.pickupDate || ""}
           onChange={(e) => updateFields({ pickupDate: e.target.value })}
+        /> */}
+        <TextInput
+          label="Preferred pickup date (optional)"
+          name="pickupDate"
+          type="date"
+          value={data.pickupDate || ""}
+          min={new Date().toISOString().split("T")[0]}
+          onChange={(e) => {
+            const date = e.target.value;
+
+            const error = validateFutureDate(date);
+            if (error) {
+              alert(error); // or toast.error(error)
+              return;
+            }
+
+            updateFields({ pickupDate: date });
+          }}
         />
-        <TextInput label="Preferred pickup time (optional)" name="pickupTime" type="time"
+        
+        {/* <TextInput label="Preferred pickup time (optional)" name="pickupTime" type="time"
           value={data.pickupTime || ""}
           onChange={(e) => updateFields({ pickupTime: e.target.value })}
+        /> */}
+        <TimePicker12h
+          label="Preferred pickup time (optional)"
+          value={data.pickupTime || ""}
+          minTime={currentTime}
+          onChange={(time) => updateFields({ pickupTime: time })}
         />
       </div>
 
