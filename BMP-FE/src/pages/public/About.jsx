@@ -31,14 +31,6 @@ const journey = [
   },
 ];
 
-
-const stats = [
-  { icon: <FaBox />, number: "10K+", label: "Deliveries" },
-  { icon: <FaUsers />, number: "5K+", label: "Happy Users" },
-  { icon: <FaMapMarkerAlt />, number: "100+", label: "Cities Covered" },
-  { icon: <FaShieldAlt />, number: "99%", label: "Safe Deliveries" },
-];
-
 const values = [
   {
     title: "Our Mission",
@@ -122,13 +114,6 @@ export default function About() {
         </p>
          <div className="flex gap-4 mt-8">
                 
-
-{/* <button
-  onClick={() => navigate("/contact")}
-  className="border border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-700 transition"
->
-  Contact Us
-</button> */}
               </div>
       </motion.div>
       
