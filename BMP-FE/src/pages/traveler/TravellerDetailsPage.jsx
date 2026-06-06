@@ -11,6 +11,28 @@ import TravellerCard from "../../components/parceldetails/TravellerCard";
 import { DELIVERY_STATUS } from "../../core/constants/app.constant";
 import RoutePath from "../../core/constants/routes.constant";
 
+const resolveParcelPhotoUrl = (photo) => {
+  if (!photo) return null;
+  if (typeof photo === "string") {
+    const trimmed = photo.trim();
+    if (trimmed.startsWith("http")) return trimmed;
+    const baseUrl = ServerUrl.BASE_URL || import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "") || "";
+    return baseUrl ? `${baseUrl}/${trimmed.replace(/^\/+/, "")}` : trimmed;
+  }
+  if (typeof photo === "object") {
+    const source = photo.url || photo.path || photo.src || "";
+    return resolveParcelPhotoUrl(source);
+  }
+  return null;
+};
+
+const formatDimensionInches = (value) => {
+  if (value === null || value === undefined || value === "") return "—";
+  const numeric = Number(String(value).replace(/[^0-9.\-]/g, ""));
+  if (!Number.isFinite(numeric)) return String(value);
+  return `${(numeric / 2.54).toFixed(1)} in`;
+};
+
 const TravellerDetailsPage = () => {
   const { id: parcelId } = useParams();
   const navigate = useNavigate();
@@ -78,11 +100,13 @@ const TravellerDetailsPage = () => {
               est_delivery: "3-5 Days",
               description: data.description || "—",
               type: data.parcel_type || "—",
-              length: data.length ? `${data.length} cm` : "—",
-              width: data.width ? `${data.width} cm` : "—",
-              height: data.height ? `${data.height} cm` : "—",
+              length: data.length ? formatDimensionInches(data.length) : "—",
+              width: data.width ? formatDimensionInches(data.width) : "—",
+              height: data.height ? formatDimensionInches(data.height) : "—",
               notes: data.notes || "—",
-              photos: data.photos || [],
+              photos: Array.isArray(data.photos)
+                ? data.photos.map(resolveParcelPhotoUrl).filter(Boolean)
+                : [],
             },
             
             // Traveller info (sender's perspective)
