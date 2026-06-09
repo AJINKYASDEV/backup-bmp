@@ -210,7 +210,21 @@ export async function processWithdrawalService(withdrawalId) {
       where: { user_id: withdrawal.user_id },
     });
 
-    const beneficiaryId = await createBeneficiary(kyc);
+    let beneficiaryId = `BEN_${kyc.user_id.replace(/-/g, "_")}`;
+
+    try {
+      beneficiaryId = await createBeneficiary(kyc);
+    } catch (error) {
+      if (
+        error.message.includes("beneficiary_id already exists")
+      ) {
+        console.log(
+          `Beneficiary already exists: ${beneficiaryId}`
+        );
+      } else {
+        throw error;
+      }
+    }
 
     const payout = await transferToBank(
       beneficiaryId,
